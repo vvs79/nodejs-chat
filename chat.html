@@ -1,9 +1,8 @@
-<!-- chat.html -->
 <!DOCTYPE html>
 <html ng-app='appChat'>
     <head>
         <meta charset="utf-8">
-        <title>WebSockets - Simple chat</title>
+        <title>WebSockets - Chat</title>
 
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -12,15 +11,19 @@
         <style>
         * { font-family:tahoma; font-size:12px; padding:0px; margin:0px; }
         p { line-height:18px; }
-        section { width:490px; margin-left:auto; margin-right:auto;}
-        section:first-of-type { padding:5px; background:#ddd; border-radius:5px;
+
+        div { width:490px; margin-left:auto; margin-right:auto;}
+        div:first-of-type { padding:5px; background:#ddd; border-radius:5px;
                    border:1px solid #CCC; margin-top:10px; overflow:hidden; position:relative; }
+
         #input { border-radius:2px; border:1px solid #ccc;
                  margin-top:10px; padding:5px; width:390px;  }
+        #topic { border-radius:2px; border:1px solid #ccc;
+                 margin-top:10px; padding:5px; width:380px;  }
         #status { width:88px; display:block; float:left; margin-top:15px; }
         
         
-        section:first-of-type {  }
+        div:first-of-type {  }
         .viewport { z-index:1; position: relative; height:560px; overflow-y: auto; bottom:0;}
 		.overview { list-style:none; position:absolute; left:0; top:0; /*width:100%;*/ }
 		.scrollbar { position:absolute; left:490px; }
@@ -33,30 +36,40 @@
 		.disable * { display:none; }
         .par {}
         .pre-scrollbar {}
+        .inline {display: inline-block; margin-left: 50px;}
         </style>
     </head>
     <body ng-controller='chatCtrl'>
-    
-        <section>
-          <div class='par'>
-			<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+      <div class='inline'>
+        <div>
+  			<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
             <!--div class='par'-->
 			<div class="viewport">
 	            <div class="overview" id="content">
 	            </div>
-			</div></div>
-		</section>
+			</div>
+		</div>
     
-        <section>
+        <div>
             <span id="status">Connecting...</span>
-            <input type="text" id="input" disabled="disabled" ng-keyup="keydown($event)"/>
-        </section>
-        <br/>
-        <p class='text-center'><input type='button' class='btn btn-danger' value='Cancle connect' ng-click='disconnect()'/></p>
-        <br/>
-        <h4 class='text-center'>All users:</h4>
+            <input type="text" id="input" disabled="disabled" ng-keyup="keydown($event)" required />
+            <div>
+              <span id="topic-name">Enter topic name: </span>
+              <input type="text" id="topic" ng-keyup="" required />
+            </div>
+        </div>
+      </div>
+
+      <div class='inline'>
+        <h4 class='text-center'>Active users:</h4>
         <p class='text-center' ng-repeat='u in users'>{{u}}</p>
-        
+        <br/>
+        <h4 class='text-center'>Active topics:</h4>
+        <p class='text-center' ng-repeat='t in topics'>{{t}}</p>
+        <br/>
+        <p class='text-center'><input type='button' class='btn btn-danger' value='Cancel connect' ng-click='disconnect()'/></p>
+        <br/>
+      </div> 
 
         <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script-->
         <script src="jquery.tinyscrollbar.js"></script>
